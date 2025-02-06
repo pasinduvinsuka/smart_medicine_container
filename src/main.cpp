@@ -18,10 +18,9 @@ void setup() {
     while (true); // Halt if initialization fails
   }
   display.clearDisplay();
-  display.setTextSize(1);
+  display.setTextSize(2);
   display.setTextColor(SSD1306_INVERSE);
-  
-  display.print("Hey : )");
+
   display.display();
   Serial.println("Hello, ESP32!");
 }
