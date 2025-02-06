@@ -7,8 +7,11 @@
 #define OLED_RESET -1
 #define SCREEN_ADDRESS 0x3C
 
+#define BUZZER 5
+#define LED_1 15
+
 // global variables
-int seconds = 0;
+int seconds = 00;
 int minutes = 0;
 int hours = 0;
 int days = 0;
@@ -30,6 +33,10 @@ const uint8_t crossIcon[] PROGMEM = {
 
 void setup()
 {
+
+  pinMode(BUZZER, OUTPUT);
+  pinMode(LED_1, OUTPUT);
+digitalWrite(LED_1, HIGH);
   Serial.begin(115200);
   if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS))
   { // 0x3C is the I2C address for many SSD1306 displays
@@ -39,6 +46,7 @@ void setup()
   }
   print_line("Welcome to the medibox");
   display.clearDisplay();
+
 }
 
 void loop()
