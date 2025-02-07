@@ -16,9 +16,27 @@ int minutes = 0;
 int hours = 0;
 int days = 0;
 
+int C_4 = 262;
+int D_4 = 294;
+int E_4 = 330;
+int F_4 = 349;
+int G_4 = 392;
+int A_4 = 440;
+int B_4 = 494;
+int C_5 = 523;
+
+int notes[] = {
+    C_4, D_4, E_4, G_4, F_4, E_4, C_4, A_4, C_5, G_4
+};
+
+int durations[] = {
+    500, 500, 750, 500, 750, 750, 1000, 750, 1000, 1500
+};
+
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 void print_line(String message, int column = 0, int row = 0, int size = 1, int color = SSD1306_WHITE);
 void print_time_now();
+void ring_alarm();
 
 const uint8_t crossIcon[] PROGMEM = {
     0b00111100, // ..@..@..
@@ -39,14 +57,14 @@ void setup()
 digitalWrite(LED_1, HIGH);
   Serial.begin(115200);
   if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS))
-  { // 0x3C is the I2C address for many SSD1306 displays
+  { 
     Serial.println(F("SSD1306 allocation failed"));
     while (true)
-      ; // Halt if initialization fails
+      ; 
   }
   print_line("Welcome to the medibox");
   display.clearDisplay();
-
+ring_alarm();
 }
 
 void loop()
@@ -86,4 +104,12 @@ void print_line(String message, int column, int row, int size, int color)
 void print_time_now()
 {
   print_line("Time: " + String(hours) + ":" + String(minutes) + ":" + String(seconds), 20, 32,1.75);
+}
+
+void ring_alarm()
+{
+  for (int i = 0; i < sizeof(notes) / sizeof(notes[0]); i++)
+  {
+    tone(BUZZER, notes[i], durations[i]);
+  }
 }
